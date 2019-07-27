@@ -1,12 +1,11 @@
-from flask import Flask, redirect, request, render_template, session, flash, db
+from flask import Flask, redirect, request, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
-from app import app, db
-import cgi
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogz@localhost:3306/blogz'
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Blogz:blogz@localhost:3306/blogz'
+app.config['SQLALCHEMY_ECHO'] = True 
 db = SQLAlchemy(app)
 app.secret_key = 'abcdefgh'
 
