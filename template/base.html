@@ -1,63 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-	<head>
-		<title>{{title}}</title>
-		<style>
-			.error {
-				color: red;
-			}
-			
-			h1 {
-				text-align: center;
-			}
-			.hyperlinks {
-				font-size: 16px;
-				padding-right: 10px;
-			}
-			
-			#inline-links {
-				overflow:hidden;
-				display:inline;
-			}
-			
-			#login-logout {
-				float: right;
-			}
-			
-		</style>
-	</head>
-	<body>
-	
-		<div id='inline-links'>
-			<a class='hyperlinks' href='/'>Home</a> 
-			<a class='hyperlinks' href='/blog'>All Posts</a> 
-			<a class='hyperlinks' href='/newpost'>New Post</a>
-		</div>
-		
-		<div id='login-logout'>
-			{% if 'username' in session %}
-				{{session['username']}}
-				<form action='/logout' method='POST' id='logout'>
-					<input type="submit" value="Log Out" />
-				</form>
-			{% else %}
-				<a href="/login">Login</a> | <a href="/signup">Signup</a> 
-			{% endif %}
-		</div>
-		
-		{% with messages = get_flashed_messages(with_categories=True) %}
-			{% if messages %}
-				<ul >
-					{% for category,message in messages %}
-					<li class="{{category}}">{{ message }}</li>
-					{% endfor %}
-				</ul>
-			{% endif %}					
-		{% endwith %}
-		
-		
-		{% block content %}
-		{% endblock %}
-	
-	</body>
-</html>
+<head>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> 
+    <link rel="stylesheet" href="/css/styles.css"> -->
+    <style>
+        .error {
+            color: red;
+    }
+    </style>
+</head>
+
+<body> 
+    <nav>   
+        <a href="/">HOME</a>     |
+        <a href="/blog">BLOGS</a>     |
+        <a href="/newpost">ADD NEW BLOG</a>     |
+        <a href="/signup">CREATE ACCOUNT</a>     |
+        <a href="/login">LOGIN</a>     |
+        <a href="/logout">LOGOUT</a>     |
+    <!--display: block;-->
+    </nav> 
+
+    {% with messages = get_flashed_messages() %}
+        <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+        </ul>
+    {% endwith %}   
+
+{% block content %}                                 <!-- place code to define block/extension points -->
+
+{% endblock %} 
+
+</body>
+</htmly
