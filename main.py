@@ -4,10 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Blogz:blogz@localhost:3306/blogz'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Blogz:blogz@localhost:3306/Blogz'
 app.config['SQLALCHEMY_ECHO'] = True 
 db = SQLAlchemy(app)
-app.secret_key = 'abcdefgh'
+app.secret_key = '\x13\xe3\n\x16}\xac\x07\xc1\xbb\x88'
 
 # Table Structure
 class Blog(db.Model):
@@ -70,7 +70,7 @@ def newpost():
 			flash_error = "Please fill in the body."
 
 		if not flash_error:
-			new_entry = Blog(title, body, current_user())
+			new_entry = Blog(title, body())
 			db.session.add(new_entry)
 			db.session.commit()
 			blog_id = new_entry.id
@@ -82,12 +82,11 @@ def newpost():
 
 		return render_template('blog.html', blogs=blogs)
 	
-	return render_template('newpost.html')
+	return render_template('/newpost.html')
 	
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/index', methods=['POST', 'GET'])
 def index():
 	users = User.query.all()
-
 	return render_template('index.html', users=users)
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -146,17 +145,16 @@ def signup():
 			db.session.commit()
 			session['username'] = username
 			flash("Logged in")
-			return redirect('/')
-		else:
-			flash(flash_error,'error')
-			return redirect('/signup')		
-		
+			return redirect('/signup')
+		# else:
+		# 	flash(flash_error,'error')
+		# 	return redirect('/signup')		
 	return render_template('signup.html')	
 
-@app.route("/logout", methods=['POST'])
+@app.route('/logout', methods=['POST'])
 def logout():
 	del session['username']
-	return redirect("/blog")
+	return redirect('/blog')
 	
 if __name__ == '__main__':
 	app.run()

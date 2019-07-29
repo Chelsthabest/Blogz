@@ -21,7 +21,7 @@
     <!--display: block;-->
     </nav> 
 
-    {% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
         <ul>
         {% for message in messages %}
         <li>{{message}}</li>
@@ -29,9 +29,8 @@
         </ul>
     {% endwith %}   
 
-{% block content %}                                 <!-- place code to define block/extension points -->
-
-{% endblock %} 
+    {% block content %}                                 <!-- place code to define block/extension points -->
+    {% endblock %} 
 
 </body>
 </htmly
