@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
+{% block content %}  
 <head>
-    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> 
-    <link rel="stylesheet" href="/css/styles.css"> -->
+
     <style>
         .error {
             color: red;
-    }
+        }
     </style>
 </head>
 
@@ -18,19 +18,9 @@
         <a href="/signup">CREATE ACCOUNT</a>     |
         <a href="/login">LOGIN</a>     |
         <a href="/logout">LOGOUT</a>     |
-    <!--display: block;-->
     </nav> 
-
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-        </ul>
-    {% endwith %}   
-
-    {% block content %}                                 <!-- place code to define block/extension points -->
-    {% endblock %} 
+    {% block content %}
+    {% endblock %}
 
 </body>
-</htmly
+</html>

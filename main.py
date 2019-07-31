@@ -55,6 +55,10 @@ def blog():
 		
 	return render_template('blog.html', blogs=blogs)	
 
+@app.route('/newpost')
+def post():
+	return render_template('newpost.html', title="New Post")
+
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
 	if request.method == 'POST':
@@ -126,7 +130,7 @@ def signup():
 			flash_error = "Passwords must match."
 		
 		#username validation
-		if username == '':
+		elif username == '':
 			flash_error = "Please enter a username."
 		elif len(username) < 3:
 			flash_error = "Username must be between 3 and 20 characters long."
@@ -146,9 +150,7 @@ def signup():
 			session['username'] = username
 			flash("Logged in")
 			return redirect('/signup')
-		# else:
-		# 	flash(flash_error,'error')
-		# 	return redirect('/signup')		
+				
 	return render_template('signup.html')	
 
 @app.route('/logout', methods=['POST'])
