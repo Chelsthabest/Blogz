@@ -1,21 +1,14 @@
 {% extends "base.html" %}
 
-<title>USER BLOG PAGE</title>
-
 {% block content %}
-    <h1>{{user.username}} Blogs</h1>
-    <hr />
-    <header><h1>{{user.username}}</h1></header>
-    <hr />
-    {% for blog in blogs %}
-        <h2>
-        <a href="/blog?id={{blog.id}}">{{ blog.title }}</a>
-        </h2>
-        <p> {{ blog.body }}
-        <br><hr>
-       
-    <hr />
-    {% endfor %}
-    <hr />
-   
+		
+	<h1>Blog Posts!</h1>
+		
+	{% for blog in blogs %}
+		<a href='/blog?id={{blog.id}}'><h2>{{blog.title}}</h2></a>
+		<p>{{blog.body}}</p>
+		<p>written by: <a href='/blog?user={{blog.owner.username}}'>{{blog.owner.username}}</a></p>
+		<hr / >
+	{% endfor %}
+
 {% endblock %}

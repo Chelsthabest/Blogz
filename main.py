@@ -49,15 +49,11 @@ def blog():
 		blogs = Blog.query.filter_by(id=blog_id).all()
 	elif blog_user:
 		blogs = Blog.query.join(User).filter_by(username=blog_user).all()
-		return render_template('singleUser.html', blogs=blogs)	
+		return render_template('singleuser.html', blogs=blogs)	
 	else:
 		blogs = Blog.query.join(User).all()
 		
-	return render_template('blog.html', blogs=blogs)	
-
-@app.route('/newpost')
-def post():
-	return render_template('newpost.html', title="New Post")
+	return render_template('bloglist.html', blogs=blogs)	
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def newpost():
@@ -74,7 +70,7 @@ def newpost():
 			flash_error = "Please fill in the body."
 
 		if not flash_error:
-			new_entry = Blog(title, body())
+			new_entry = Blog(title, body, current_user())
 			db.session.add(new_entry)
 			db.session.commit()
 			blog_id = new_entry.id
@@ -84,14 +80,19 @@ def newpost():
 			flash(flash_error, 'error')
 			return render_template('newpost.html', title=title, body=body)
 
-		return render_template('blog.html', blogs=blogs)
+		return render_template('bloglist.html', blogs=blogs)
 	
-	return render_template('/newpost.html')
+	return render_template('newpost.html')
 	
-@app.route('/index', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def index():
 	users = User.query.all()
+
 	return render_template('index.html', users=users)
+	
+def current_user():
+	current_user = User.query.filter_by(username=session['username']).first()
+	return current_user
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -130,7 +131,7 @@ def signup():
 			flash_error = "Passwords must match."
 		
 		#username validation
-		elif username == '':
+		if username == '':
 			flash_error = "Please enter a username."
 		elif len(username) < 3:
 			flash_error = "Username must be between 3 and 20 characters long."
@@ -149,14 +150,17 @@ def signup():
 			db.session.commit()
 			session['username'] = username
 			flash("Logged in")
-			return redirect('/signup')
-				
+			return redirect('/')
+		else:
+			flash(flash_error, 'error')
+			return redirect('/signup')		
+		
 	return render_template('signup.html')	
 
-@app.route('/logout', methods=['POST'])
+@app.route("/logout", methods=['POST'])
 def logout():
 	del session['username']
-	return redirect('/blog')
+	return redirect("/blog")
 	
 if __name__ == '__main__':
 	app.run()
